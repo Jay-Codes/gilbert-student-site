@@ -10,3 +10,13 @@ class User(BaseModel):
     is_student: bool
     is_investor: bool
     is_evaluator: bool
+
+class Project(BaseModel):
+    _id: int
+    name: str
+    description: str
+    status: str
+    owner: str
+    evaluators: list
+    investors: list
+    evaluations: list
