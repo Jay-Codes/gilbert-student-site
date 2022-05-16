@@ -8,3 +8,5 @@ class User(BaseModel):
     email: str
     name: str
     is_student: bool
+    is_investor: bool
+    is_evaluator: bool
