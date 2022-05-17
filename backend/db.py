@@ -1,3 +1,8 @@
-from sqlalchemy.orm import declarative_base
+from sqlalchemy.orm import declarative_base, sessionmaker
 from sqlalchemy import create_engine
-from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
+
+engine=create_engine('mysql://beingnile:beingnile@localhost/collab', echo=True)
+
+Base=declarative_base()
+
+SessionLocal=sessionmaker(bind=engine)
