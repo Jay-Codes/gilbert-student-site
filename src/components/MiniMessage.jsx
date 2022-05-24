@@ -17,6 +17,8 @@ const msgs = [
     {left :false ,text:'Hello how are you ?'},
     {left :false ,text:'Hello how are you ?'},
 ]
+
+    /* Recent Messages Design */
 const MiniMessage = () => {
   return (
     <div className='flex-1 m-[.5rem] ml-[.25rem] rounded-lg bg-white capitalize   pt-[1.7rem] pl-[1.5rem] pb-[1.7rem]  pr-[1.5rem]'>
