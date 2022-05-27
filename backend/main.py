@@ -1,6 +1,6 @@
-from fastapi import FastAPI, Request
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel, Json
+from pydantic import BaseModel
 import models
 from db import SessionLocal
 
@@ -11,7 +11,7 @@ class User(BaseModel):
     fullname: str
     email: str
     number: str
-    role: str
+    role: str = 'Student'
 
 class Project(BaseModel):
     projectName: str
@@ -38,6 +38,13 @@ db = SessionLocal()
 
 @app.post("/api/auth/register", status_code=201)
 def register(user: User):
+    """
+    Posts the user's information during registration
+    The information passed as the JSON body is updated to the database
+
+    Returns:
+        The project ID
+    """
     new_user = models.User(
         fullname=user.fullname,
         email=user.email,
@@ -48,13 +55,19 @@ def register(user: User):
     db.commit()
     return {"userId": new_user.userId}
 
-# Yet to be fixed
-@app.post("/api/project/upload/{userId}", status_code=201)
+@app.post("/api/users/{userId}/projects/upload", status_code=201)
 def upload_project(userId: int, project: Project):
+    """
+    Posts the project information when student uploads a project
+    The information passed as the JSON body is updated to the database
+
+    Returns:
+        The project ID
+    """
     new_project = models.Project(
         projectName=project.projectName,
         projectDescription=project.projectDescription,
-        studentID={userId},
+        studentID=userId,
         evaluatorID=project.evaluatorID,
         investorID=project.investorID,
         approved=project.approved,
@@ -65,7 +78,30 @@ def upload_project(userId: int, project: Project):
     db.commit()
     return {"projectId": new_project.projectId}
 
-@app.get("/api/project/{userId}", status_code=200)
+@app.get("/api/users/{userId}/projects", status_code=200)
 def get_project(userId: int):
+    """
+    Gets the user's project information from the database
+
+    Returns:
+        A list of Projects uploaded by the students
+    """
     my_project = db.query(models.Project).filter(models.Project.studentID==userId).all()
     return my_project
+
+@app.patch("/api/users/{userId}/update", status_code=200)
+def update_user(userId: int, user: User):
+    """
+    Updates the user's information in the database
+
+    Returns:
+        The project ID
+    """
+    # role = db.query(models.User.role).filter(models.User.userId==userId).first()
+    my_user = db.query(models.User).filter(models.User.userId==userId).first()
+    my_user.fullname = user.fullname
+    my_user.email = user.email
+    my_user.number = user.number
+    # my_user.role = role
+    db.commit()
+    return {"userId": my_user.userId}
