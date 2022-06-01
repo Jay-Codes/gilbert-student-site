@@ -1,5 +1,5 @@
 import React from 'react'
-import { Home ,Person,AccountTree,Message,Publish,ChatIcon } from '@mui/icons-material'
+import { Home ,Person,AccountTree,Message,Publish,ChatIcon,Settings } from '@mui/icons-material'
 import { AccountTree as Project } from '@mui/icons-material'
 
 const SideItem = ({icon,label,to}) => {
@@ -22,6 +22,7 @@ const SideNav = () => {
             <SideItem icon={<Home/>} label='Dashboard'  to='/'/> 
             {/* <SideItem icon={<Project/>} label='My Projects' to='/my-projects'/> */}
             <SideItem icon={<Message/>} label='chat'to='/chat'/>
+            <SideItem icon={<Settings/>} label='settings'to='/settings'/>
             {/* <SideItem icon={<Message/>} label='Message Page'/> */}
         </div>
       </div>
