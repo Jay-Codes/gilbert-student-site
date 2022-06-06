@@ -36,7 +36,7 @@ const projectSlice = createSlice({
     },
     reducers : {
         setCurrentProject : (state,action)=>{state.currentProject = action.payload; },
-        setProjects : (state,action)=>state.projects =action.payload
+        setProjects : (state,action)=>{state.projects =action.payload}
     },
 })
 

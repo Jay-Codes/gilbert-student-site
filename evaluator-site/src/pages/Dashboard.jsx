@@ -1,7 +1,9 @@
 import React,{useEffect, useState} from 'react'
-import { Close } from '@mui/icons-material'
+import {Close ,Check} from '@mui/icons-material'
 import { useSelector, useDispatch } from 'react-redux'
 import { setCurrentProject } from '../redux/ProjectReducer'
+import { handleApproveProject as persistedHandleApproveProject } from '../lib/projects'
+import { useNavigate } from 'react-router-dom'
 let data = [
     {
         projectName :'water project',
@@ -29,19 +31,30 @@ let data = [
     },
 ]
 
+const TrueFalse = ({flag})=>(
+    flag ? <Check className=' text-green-500'/> :
+         flag ===null ? <span className='rounded-xl bg-red-400 text-red-800 p-[.25rem]'>pending</span> :
+          <Close className='text-red-500'/>
+)
+
 export const ActionButtons = ({project,actions})=>{
     const dispatch = useDispatch()
+    const navigate = useNavigate()
+    function handleChatWithStudent(e){
+        dispatch(setCurrentProject(project));
+        navigate('/chat')
+    }
     return(
-        <div className='mt-[.5rem] z-[12]'>
-            <button className=' rounded-lg bg-blue-600 hover:bg-blue-700 text-white p-[.5rem]' onClick={e=>actions.showApproveDialog(true)}> Approve </button>
-            <button className=' ml-[.5rem] hover:bg-red-700 rounded-lg bg-red-600 text-white p-[.5rem]'  onClick={e=>actions.showDisapproveDialog(true)}> Disapprove </button>
-            <button className=' ml-[.5rem] hover:bg-neutral-200 rounded-lg p-[.5rem] p-[.5rem]text-blue-600' onClick={e=>{dispatch(setCurrentProject(project))}}> Chat With Student </button>
+        <div className='mt-[.5rem] z-[12]' >
+            <button className=' rounded-lg bg-blue-600 hover:bg-blue-700 text-white p-[.5rem]' onClick={e=>actions.showApproveDialog(true,project)}> Approve </button>
+            <button className=' ml-[.5rem] hover:bg-red-700 rounded-lg bg-red-600 text-white p-[.5rem]'  onClick={e=>actions.showDisapproveDialog(true,project)}> Disapprove </button>
+            <button className=' ml-[.5rem] hover:bg-neutral-200 rounded-lg p-[.5rem] p-[.5rem]text-blue-600' onClick={handleChatWithStudent}> Chat With Student </button>
         </div>
     )
 }
 
 export const Modal = ({children})=>(
-    <div className='bg-[rgba(0,0,0,0.5)] absolute bottom-0 left-0 right-0 top-0 flex flex-col justify-center items-center '>
+    <div className='z-[6] bg-[rgba(0,0,0,0.5)] absolute bottom-0 left-0 right-0 top-0 flex flex-col justify-center items-center '>
         {children}
     </div>
 )
@@ -53,25 +66,40 @@ export const Dashboard = () => {
     const [ approveDialog,showApproveDialog ] =useState(false)
     const [ disapproveDialog,showDisapproveDialog ] = useState(false)
     const { projects , currentProject } =  useSelector(state=>state.projectReducer)
+    const [ currProject ,setCurrProject ] = useState()
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
     data = projects
     const rowStyle = 'px-[1.5rem] my-[.25rem] capitalize'
     let list = data.filter((item)=> category !=='all' ? item.category === category : true)
-    list = list.filter(item=> { return approvedFilter ? item.approved : true} )
+    list = list.filter(item=> { return approvedFilter ? item.evaluator : true} )
     list =  list.filter(item=> investorApprovedFilter ? item.hasInvestor :true)
     useEffect(()=>{
         if(projects) data = projects
     },[])
-
-    useEffect(()=>{
-        if (!currentProject)return
-        console.log(currentProject)
-        window.location='/chat'
-    },[currentProject])
-    function handleApproveProject (e){
+    async function handleApproveProject (e){
+        const comment = document.getElementById('comment').value
+        await persistedHandleApproveProject(true,comment,currProject)
         showApproveDialog(false)
     }
-    function handleDisapproveProject(e){
+    async function handleDisapproveProject(e){
+        const comment = document.getElementById('comment').value
+        await persistedHandleApproveProject(false,comment,currProject)
         showDisapproveDialog(false)
+    }
+
+    function handleShowApproveDialog(visibility,proj){
+        setCurrProject(proj)
+        showApproveDialog(visibility)
+    }
+    function handleShowDispproveDialog(visibility,proj){
+        setCurrProject(proj)
+        showDisapproveDialog(visibility)
+    }
+
+    function handleChatWithStudent(e){
+        dispatch(setCurrentProject(currentProject));
+        navigate('/path')
     }
     
   return (
@@ -82,7 +110,7 @@ export const Dashboard = () => {
                 <select className='cursor-pointer' value={category} onChange={e=>setCategory(e.target.value)}>
                     <option label='all' value='all'/>
                     <option label='Health Care' value='Health Care'/>
-                    <option label='Education Quality' value='Education'/>
+                    <option label='Education Quality' value='Education Quality'/>
                     <option label='Corruption' value='Corruption'/>
                     <option label='Food Insecurity' value='Food Insecurity'/>
                     <option label='Economy' value='Economy'/>
@@ -107,27 +135,36 @@ export const Dashboard = () => {
         </div>
         
 
-        <div>
-            <table className=' border-collapse '>
-                <tr>
-                    <th className={rowStyle}>project name</th>
-                    <th className={rowStyle}>Category</th>
-                    <th className={rowStyle}>student</th>
-                    <th className={rowStyle}>approved</th>
-                    <th className={rowStyle}>has investor</th>
-                    <th className={rowStyle}>actions</th>
-                </tr>
-
-                {list.map((project,index)=>(
-                    <tr className='border-b-[1px]  hover:bg-neutral-50 cursor-pointer' >
-                            <td key={index} onClick={e=>{setCurrentProjectInContext(project)}} ><div className={rowStyle}>{project.projectName}</div></td>
-                            <td key={index} onClick={e=>{setCurrentProjectInContext(project)}} ><div className={rowStyle}>{project.category}</div></td>
-                            <td key={index} onClick={e=>{setCurrentProjectInContext(project)}} ><div className={rowStyle}>{project.studentName}</div></td>
-                            <td key={index} onClick={e=>{setCurrentProjectInContext(project)}} ><div className={rowStyle}>{String(project.approved)}</div></td>
-                            <td key={index} onClick={e=>{setCurrentProjectInContext(project)}} ><div className={rowStyle}>{String(project.hasInvestor)}</div></td>
-                            <td key={index} ><div className={rowStyle}><ActionButtons project={project} actions = {{showApproveDialog,showDisapproveDialog}}/></div></td>
-                    </tr>
-                ))}
+        <div >
+            <table className=' border-collapse max-h-[400px] overflow-y-auto' style={{ 
+            }}>
+                <div className='h-[600px] overflow-y-auto relative'>
+                    <thead>
+                        <tr className='sticky top-0 bg-white'>
+                            <th className={rowStyle}>project name</th>
+                            <th className={rowStyle}>Category</th>
+                            <th className={rowStyle}>student</th>
+                            <th className={rowStyle}>approved</th>
+                            <th className={rowStyle}>has investor</th>
+                            <th className={rowStyle}>actions</th>
+                        </tr>    
+                    </thead>
+                
+                
+                    <tbody >
+                        {list.map((project,index)=>(
+                            <tr key={index} className='border-b-[1px]  hover:bg-neutral-50 cursor-pointer' >
+                                    <td onClick={e=>{setCurrentProjectInContext(project)}} ><div className={rowStyle}>{project.projectName}</div></td>
+                                    <td onClick={e=>{setCurrentProjectInContext(project)}} ><div className={rowStyle}>{project.category}</div></td>
+                                    <td onClick={e=>{setCurrentProjectInContext(project)}} ><div className={rowStyle}>{project.studentName}</div></td>
+                                    <td onClick={e=>{setCurrentProjectInContext(project)}} ><div className={rowStyle}>{<TrueFalse flag={project.evaluator}/>}</div></td>
+                                    <td onClick={e=>{setCurrentProjectInContext(project)}} ><div className={rowStyle}><TrueFalse flag={project.investor}/></div></td>
+                                    <td ><div className={rowStyle}><ActionButtons project={project} actions = {{showApproveDialog : handleShowApproveDialog,showDisapproveDialog :handleShowDispproveDialog}}/></div></td>
+                            </tr>
+                        ))}    
+                    </tbody>
+                </div>
+                
             </table>
         </div>
 
@@ -149,7 +186,7 @@ export const Dashboard = () => {
                     <div className='mt-[.5rem]'>
                         <button className=' rounded-lg bg-blue-600 hover:bg-blue-700 text-white p-[.5rem]' onClick={e=>showApproveDialog(true)}> Approve </button>
                         <button className=' ml-[.5rem] hover:bg-red-700 rounded-lg bg-red-600 text-white p-[.5rem]' onClick={e=>showDisapproveDialog(true)}> Disapprove </button>
-                        <button className=' ml-[.5rem] hover:bg-neutral-200 rounded-lg p-[.5rem] p-[.5rem]text-blue-600' > Chat With Student </button>
+                        <button className=' ml-[.5rem] hover:bg-neutral-200 rounded-lg p-[.5rem] p-[.5rem]text-blue-600' onClick={handleChatWithStudent} > Chat With Student </button>
                     </div>
                 </div>
             </Modal>
@@ -159,6 +196,17 @@ export const Dashboard = () => {
                 <div className='rounded-xl bg-white flex flex-col justify-start p-[1rem]'>
                     <span className='capitalize'> You are Currently Approving this Project and Taking on the role of the projects evaluator</span>
                     <span className='capitalize'> Are You Sure You want to Proceed ?</span>
+
+                    <textarea
+                        // value={}
+                        // onChange={}
+                        className='border-neutral-400 border my-[.4rem] p-[.3rem]'
+                        placeholder='Enter Your Comments on This Project'
+                        rows={5}
+                        cols={5}
+                        id = 'comment'
+                    />
+
                     <div >
                         <button className='bg-blue-600 text-white hover:bg-blue-700 rounded-xl p-[.5rem] ' onClick={handleApproveProject}>
                             Yes
@@ -183,6 +231,7 @@ export const Dashboard = () => {
                         placeholder='Enter Reason of Disapproval'
                         rows={5}
                         cols={5}
+                        id = 'comment'
                     />
                     <div >
                         <button className='bg-blue-600 text-white hover:bg-blue-700 rounded-xl p-[.5rem] ' onClick={handleDisapproveProject}>

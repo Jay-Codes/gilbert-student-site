@@ -3,6 +3,8 @@ import StyleButton from './StyleButton';
 import './richEditorStyle.css';
 import {Editor, EditorState , RichUtils, getDefaultKeyBinding ,convertToRaw} from 'draft-js';
 import {stateToHTML} from 'draft-js-export-html'
+import { store } from '../redux/store';
+import { setUploadProject } from '../redux/projectState';
 const styleMap = {
   CODE: {
     backgroundColor: 'rgba(0, 0, 0, 0.05)',
@@ -85,7 +87,15 @@ class RichTextEditor extends React.Component {
 
       this.focus = () => this.refs.editor.focus();
 
-      this.onChange = (editorState) => {this.setState({editorState});console.log(stateToHTML(editorState.getCurrentContent()))}
+      this.onChange = (editorState) => 
+        {
+          this.setState({editorState});
+          const description = stateToHTML(editorState.getCurrentContent())
+          console.log(description)
+          const dispatch = store.dispatch
+          const uploadProj =  store.getState().projectState.uploadProject
+          dispatch(setUploadProject({...uploadProj,description:description}))
+        }
 
       this.handleKeyCommand = this._handleKeyCommand.bind(this);
       this.mapKeyToEditorCommand = this._mapKeyToEditorCommand.bind(this);

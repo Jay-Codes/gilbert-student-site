@@ -5,7 +5,7 @@ import ProjectInstructor from '../components/ProjectInstructor'
 import ProjectInvestor from '../components/ProjectInvestor'
 const Home = () => {
   return (
-    <div className=' rounded-lg mt-[.5rem] pt-[1.7rem] pb-[1.7rem]  pr-[1.5rem]'>
+    <div className=' rounded-lg   '>
         <div className="top flex">
             <ProjectsMini/>
             <MiniMessage/>

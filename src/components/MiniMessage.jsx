@@ -10,18 +10,18 @@ const Message = ({left,msg})=> (
     </div>
 )
 const msgs = [
-    {left :true ,text:'Hello how are you ?'},
-    {left :false ,text:'I am Fine How About you Mr Exsampl?'},
-    {left :true ,text:'Hello how are you ?'},
-    {left :false ,text:'Hello how are you ?'},
-    {left :false ,text:'Hello how are you ?'},
-    {left :false ,text:'Hello how are you ?'},
+    // {left :true ,text:'Hello how are you ?'},
+    // {left :false ,text:'I am Fine How About you Mr Exsampl?'},
+    // {left :true ,text:'Hello how are you ?'},
+    // {left :false ,text:'Hello how are you ?'},
+    // {left :false ,text:'Hello how are you ?'},
+    // {left :false ,text:'Hello how are you ?'},
 ]
 
     /* Recent Messages Design */
 const MiniMessage = () => {
   return (
-    <div className='flex-1 m-[.5rem] ml-[.25rem] rounded-lg bg-white capitalize   pt-[1.7rem] pl-[1.5rem] pb-[1.7rem]  pr-[1.5rem]'>
+    <div className='flex-1 m-[.5rem] ml-[.25rem] rounded-lg bg-white capitalize mt-[0]  pt-[1.7rem] pl-[1.5rem] pb-[1.7rem]  pr-[1.5rem]'>
         <h1 className=' font-bold uppercase text-left mt-[.25rem] mb-[1rem]'>Recent Messages</h1>
         <div className=''>
             <h4 className='text-center font-bold'>Instructor</h4>

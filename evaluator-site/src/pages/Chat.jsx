@@ -3,6 +3,8 @@ import { useDispatch ,useSelector } from 'react-redux'
 import { setCurrentProject } from '../redux/ProjectReducer'
 import { setMessages } from '../redux/messagesSlice'
 import {Send} from '@mui/icons-material'
+import { sendMessage ,getMessages } from '../lib/messages'
+
 const messagesSample= {
     0:[
         {left :true ,text:'Hello how are you ?'},
@@ -32,9 +34,10 @@ const messagesSample= {
 const Chat = ()=>{
     const dispatch = useDispatch()
     const { projects ,currentProject } = useSelector( state=>state.projectReducer)
-    const [ currentValue , setCurrentValue ] = useState(0)
+    const { user } = useSelector( state=>state.currentUser)
+    const [ currentValue , setCurrentValue ] = useState()
     function HandleProjectSelect(e){
-        const curproj = projects.find(project=>project.id===Number(e.target.value))
+        const curproj = projects.find(project=>project.id===e.target.value)
         dispatch(setCurrentProject(curproj))
     }
     useEffect(
@@ -45,12 +48,10 @@ const Chat = ()=>{
             dispatch(setCurrentProject(curproj))
         },[]
     )
-    console.log(currentProject)
     useEffect(()=>{
-        if(currentProject ===null)return
+        if(currentProject ==null)return
         setCurrentValue(currentProject.id)
         dispatch(setMessages(messagesSample[currentProject.id]))
-        // console.log(currentProject.dispatch)
     },[currentProject])
   return (
     <div className='flex-[5] p-[2rem] rounded-xl bg-white flex flex-col w-[100%] h-[100vh]'>
@@ -58,7 +59,11 @@ const Chat = ()=>{
             <div className='flex flex-col flex-1'>
                 <span className='ml-[.5rem] font-[300] text-neutral-400 capitalize mt-[1rem] text-[.8rem] mb-[-.1rem] '>Select a project</span>
                 <select className='cursor-pointer' value={currentValue} onChange={HandleProjectSelect}>
-                    {projects.map( (project,index)=><option key={index} label={project.projectName} value={project.id}/>)}
+                    {projects.map( (project,index)=>{ 
+                        if (user && project.evaluator === user.uid ) return (<option key={index} label={project.projectName} value={project.id}/> )
+                        else return (<option key={index} label={project.projectName} value={project.id}/> )
+                    })
+                    }
                 </select>    
             </div>
         </div>
@@ -83,16 +88,28 @@ const MiniMessage = () => {
     const { currentProject , projects} = useSelector(state=>state.projectReducer)
     const dispatch = useDispatch()
     const {messages }=  useSelector(state=>state.messagesReducer)
-    function handleSend(e){
+    async function handleSend(e){
         e.preventDefault()
         const text = document.getElementById('sendTextField').value
         document.getElementById('sendTextField').value=''
-        dispatch(setMessages([...messages,{
-            left :false,
-            text : text
-        }]))
-        messagesSample[currentProject.id]=[...messages,{left:false,text:true}]
+        // dispatch(setMessages([...messages,{
+        //     left :false,
+        //     text : text
+        // }]))
+
+        await sendMessage(currentProject,text)
+
+        // messagesSample[currentProject.id]=[...messages,{left:false,text:true}]
     }
+
+    useEffect(()=>{
+        ( async function loadMsg(){
+            const messages = await getMessages(currentProject)
+            dispatch(setMessages([...messages]))
+            console.log('helo world')
+        })()
+        
+    })
 
     useEffect(()=>{
         const element =  document.getElementById('chatContent')
@@ -104,7 +121,7 @@ const MiniMessage = () => {
         <div className='relative flex flex-col'>
             <h4 className='text-center font-bold'>Chatting with {currentProject ? currentProject.studentName : projects[0].studentName}</h4>
             <div id='chatContent' className="content h-[460px] overflow-y-auto">
-                {messages.map((msg,index)=><Message left={msg.left} msg={msg.text} key={index}/>)}
+                {/* {messages.map((msg,index)=><Message left={msg.left} msg={msg.text} key={index}/>)} */}
             </div>
             <form className="input flex items-center justify-between ">
                 <input type="text" name="" id="sendTextField" className='bg-[rgb(243,243,243)] rounded-md w-[85%] p-[.25rem]' />

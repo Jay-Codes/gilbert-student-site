@@ -47,21 +47,35 @@ async function writeNewUserToDB(firstName,lastName,phone,userType,email,uid){
 window.signIn = function signIn(){
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
+    sessionStorage.setItem('projectAppEmail',email)
+    sessionStorage.setItem('projectAppPassword',password)
     signInWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
+    .then(async (userCredential) => {
         // Signed in 
         const user = userCredential.user;
+        const uid = user.uid
+        const ref = doc(db,'users',uid)
+        const userSnap = await getDoc(ref);
 
-        console.log(user)
-        if(window.uid){
-            const ref = getDoc(doc(db,'users',window.uid))
-            const UserSnapShot =
+        if (userSnap.exists()) {
+            const user = userSnap.data();
+            const ut = user.userType
+            if(ut === 'Student')
+                window.location.href = window.links.STUDENT
+            else if (ut === 'Evaluator')
+                window.location.href = window.links.EVALUATOR
+            else if (ut === 'Investor')
+                window.location.href = window.links.INVESTOR
+        } else {
+            console.log("No such document!");
         }
+        console.log('login done')
         // ...
     })
     .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
+        console.log('wowowo')
     });
 }
 window.signUp = function signUp(){
@@ -96,6 +110,7 @@ window.signUp = function signUp(){
     });
 }
 window.signOut = function signOut(){
+    localStorage.clear()
     signOut(auth).then(() => {
         // Sign-out successful.
       }).catch((error) => {
