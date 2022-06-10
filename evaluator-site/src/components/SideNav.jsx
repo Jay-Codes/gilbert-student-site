@@ -16,7 +16,7 @@ const SideItem = ({icon,label,to}) => {
 }
 const SideNav = () => {
   return (
-      <div className='flex-[1] bg-[rgb(243,243,243)] h-[100vh] mr-[.25rem] '>
+      <div className='flex-[1] bg-[rgb(243,243,243)] h-[100vh]  '>
         <div className="items bg-white h-[stretch] ">
             <SideItem icon={<Home/>} label='Dashboard'  to='/'/> 
             {/* <SideItem icon={<Project/>} label='My Projects' to='/my-projects'/> */}

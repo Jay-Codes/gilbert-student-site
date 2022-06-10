@@ -26,7 +26,10 @@ export async function getProjects(uid){
     const q = query(projectRef,where('studentId','==',uid))
     const querySnapShot = await getDocs(q)
     const projects = []
-    querySnapShot.forEach((doc)=>{projects.push(doc.data())})
+    querySnapShot.forEach((doc)=>{
+        const data = doc.data()
+        projects.push({id:doc.id,...data})
+    })
     return projects
 }
 

@@ -37,7 +37,7 @@ const Profile = () => {
         dispatch(setProfile(data))
         dispatch(setUser({...user,...data}))
 
-        await updateProfileInfo(data,password,user)
+        await updateProfileInfo(data,password,user,email)
 
     }
   return (

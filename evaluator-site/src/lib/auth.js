@@ -22,6 +22,7 @@ export function logOut(){
       // Sign-out successful.
         const dispatch = store.dispatch
         dispatch(setUser( null))
+        window.location='/login'
     }).catch((error) => {
       // An error happened.
     });
@@ -29,8 +30,10 @@ export function logOut(){
 
 export default function initializeAuth(){
     auth = getAuth();
-    const email = "josephjchuchu@gmail.com"
-    const password = "1234567890"
+    const nemail = sessionStorage.getItem('projectAppEmail')
+    const npassword =  sessionStorage.getItem('projectAppPassword')
+    const email = nemail ? nemail : "josephjchuchu@gmail.com"
+    const password = npassword ? npassword : "1234567890"
     signInWithEmailAndPassword(auth,email,password)
     setPersistence(auth, browserSessionPersistence)
     .then(() => {

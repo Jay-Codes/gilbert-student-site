@@ -1,9 +1,9 @@
 import  { getAuth,onAuthStateChanged, createUserWithEmailAndPassword ,signInWithEmailAndPassword,signOut }  from 'https://www.gstatic.com/firebasejs/9.8.2/firebase-auth.js'
 import { getFirestore, collection, addDoc,  doc, setDoc,query,where,getDoc } from "https://www.gstatic.com/firebasejs/9.8.2/firebase-firestore.js";
 window.links = {
-    STUDENT : 'http://localhost:3000',
-    EVALUATOR : 'http://localhost:3078',
-    INVESTOR : 'http://localhost:3098'
+    STUDENT : '/student/index.html',
+    EVALUATOR : '/evaluator/index.html',
+    INVESTOR : '/investor/index.html'
 }
  
 const db = getFirestore(window.app);
@@ -49,6 +49,7 @@ window.signIn = function signIn(){
     const password = document.getElementById('password').value;
     sessionStorage.setItem('projectAppEmail',email)
     sessionStorage.setItem('projectAppPassword',password)
+    console.log(password)
     signInWithEmailAndPassword(auth, email, password)
     .then(async (userCredential) => {
         // Signed in 
@@ -85,6 +86,9 @@ window.signUp = function signUp(){
     const lastName = document.getElementById('lastName').value;
     const phone = document.getElementById('phone').value;
     const userType = document.getElementById('userType').value
+
+    sessionStorage.setItem('projectAppEmail',email)
+    sessionStorage.setItem('projectAppPassword',password)
 
     createUserWithEmailAndPassword(auth, email, password)
     .then(async (userCredential) => {

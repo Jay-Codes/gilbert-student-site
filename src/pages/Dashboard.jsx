@@ -34,6 +34,8 @@ const TrueFalse = ({flag})=>(
           <Close className='text-red-500'/>
 )
 
+
+
 export const Modal = ({children})=>(
     <div className='bg-[rgba(0,0,0,0.5)] absolute bottom-[-6rem] left-0 right-0 top-0 flex flex-col justify-center items-center z-[10] '>
         {children}
@@ -104,7 +106,7 @@ export const Dashboard = () => {
                                 <td onClick={e=>{setCurrentProjectInContext(project)}} ><div className={rowStyle}>{project.projectName}</div></td>
                                 <td onClick={e=>{setCurrentProjectInContext(project)}} ><div className={rowStyle}>{project.category}</div></td>
                                 <td onClick={e=>{setCurrentProjectInContext(project)}} ><div className={rowStyle}>{project.studentName}</div></td>
-                                <td onClick={e=>{setCurrentProjectInContext(project)}} ><div className={rowStyle}>{<TrueFalse flag={project.evaluator}/>}</div></td>
+                                <td onClick={e=>{setCurrentProjectInContext(project)}} ><div className={rowStyle}><TrueFalse flag={project.evaluator}/></div></td>
                                 <td onClick={e=>{setCurrentProjectInContext(project)}} ><div className={rowStyle}><TrueFalse flag={project.investor}/></div></td>
                         </tr>
                     ))}    

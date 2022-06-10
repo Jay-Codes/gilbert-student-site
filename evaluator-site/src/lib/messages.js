@@ -13,33 +13,41 @@ import {
 import { store } from '../redux/store';
 import { Timestamp } from '@firebase/firestore';
 import { setMessages } from '../redux/messagesSlice';
-let isStarted = false;
+import { setProjectListener } from '../redux/ProjectReducer'
+// let isStarted = false;
 
-function subscirbeListener(project, message) {
-  if (isStarted) return;
+function subscirbeListener( message) {
+  const {currentProject:project} = store.getState().projectReducer  
+  if (project.hasListener) return;
   if (project == null) return;
-  const dispatch = store.dispatch;
   const q = query(
     collection(db, 'messages'),
-    where('projectId', '==', project.id)
+    where('projectId', '==', project.id),
+    orderBy('timeSent')
   );
   const unsubscribe = onSnapshot(q, (querySnapshot) => {
     const messages = [];
+    
     querySnapshot.forEach((doc) => {
-      messages.push(doc.data());
+      const data =doc.data()
+      const message = {
+        id : doc.id,
+        ...data,
+        left: data.from !== 'evaluator' ? true : false,
+      }
+      messages.push(message);
     });
-    console.log(messages);
-    dispatch;
+    // dispatch;
+    dispatch(setMessages(messages))
   });
-  isStarted = true;
+  const dispatch = store.dispatch
+  dispatch(setProjectListener(true))
 }
 
 export async function sendMessage(project, message) {
-  subscirbeListener(project);
   const messagesRef = collection(db, 'messages');
   const { user } = store.getState().currentUser;
   let noteDate = Timestamp.fromDate(new Date());
-  console.log(project);
   await addDoc(messagesRef, {
     projectId: project.id,
     studentId: project.studentId,
@@ -50,6 +58,7 @@ export async function sendMessage(project, message) {
     timeSent: noteDate,
     from: 'evaluator',
   });
+  subscirbeListener(project);
 }
 
 export async function getMessages(project) {
@@ -59,7 +68,7 @@ export async function getMessages(project) {
   const q = query(
     messagesRef,
     where('projectId', '==', project.id),
-    orderBy('timeSent', 'desc')
+    orderBy('timeSent')
   );
   const querySnapShot = await getDocs(q);
   const messages = [];
@@ -68,7 +77,7 @@ export async function getMessages(project) {
     messages.push({
       id: doc.id,
       ...data,
-      left: data.evaluator === 'evaluator' ? true : false,
+      left: data.from !== 'evaluator' ? true : false,
     });
   });
   return messages;

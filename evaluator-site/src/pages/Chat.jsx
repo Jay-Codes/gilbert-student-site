@@ -5,54 +5,36 @@ import { setMessages } from '../redux/messagesSlice'
 import {Send} from '@mui/icons-material'
 import { sendMessage ,getMessages } from '../lib/messages'
 
-const messagesSample= {
-    0:[
-        {left :true ,text:'Hello how are you ?'},
-        {left :false ,text:'I am Fine How About you Mr Exsampl?'},
-        {left :true ,text:'Hello how are you ?'},
-        {left :false ,text:'Hello how are you ?'},
-        {left :false ,text:'Hello how are you ?'},
-        {left :false ,text:'Hello how are you ?'},
-    ],
-    1:[
-        {left :true ,text:'Hello how are you ?'},
-        {left :false ,text:'I amdfsdfsdfst you Mr Exsampl?'},
-        {left :true ,text:'Hello how are you ?'},
-        {left :false ,text:'Hello how are you ?'},
-        {left :false ,text:'Hello how are you ?'},
-        {left :false ,text:'Hesdfsefsefyou ?'},
-    ],
-    2:[
-        {left :true ,text:'Hello how are you ?'},
-        {left :false ,text:'I am Fine How About you Mr Exsampl?'},
-        {left :true ,text:'Hello how are you ?'},
-        {left :false ,text:'Helfsdfesdfou ?'},
-        {left :false ,text:'Hello how are you ?'},
-        {left :false ,text:'Hello how are you ?'},
-    ],
-}
+
 const Chat = ()=>{
     const dispatch = useDispatch()
-    const { projects ,currentProject } = useSelector( state=>state.projectReducer)
+    let { projects ,currentProject } = useSelector( state=>state.projectReducer)
     const { user } = useSelector( state=>state.currentUser)
     const [ currentValue , setCurrentValue ] = useState()
+
+    projects = projects.filter((project)=>project.evaluator!=null)
+
+    
+
     function HandleProjectSelect(e){
         const curproj = projects.find(project=>project.id===e.target.value)
         dispatch(setCurrentProject(curproj))
     }
     useEffect(
         ()=>{
+            const curproj = projects.find(project=>project.evaluator===user.uid)
+            if (currentProject == null )dispatch(setCurrentProject(curproj))
             if (currentProject)setCurrentValue(currentProject.id)
             if (currentProject) return
-            const curproj = projects.find(project=>project.id===0)
-            dispatch(setCurrentProject(curproj))
-        },[]
+            
+            
+        },[currentProject]
     )
-    useEffect(()=>{
-        if(currentProject ==null)return
-        setCurrentValue(currentProject.id)
-        dispatch(setMessages(messagesSample[currentProject.id]))
-    },[currentProject])
+    // useEffect(()=>{
+    //     if(currentProject ==null)return
+    //     setCurrentValue(currentProject.id)
+    //     dispatch(setMessages(messagesSample[currentProject.id]))
+    // },[currentProject])
   return (
     <div className='flex-[5] p-[2rem] rounded-xl bg-white flex flex-col w-[100%] h-[100vh]'>
         <div className='px-[1.5rem] flex'>
@@ -85,9 +67,10 @@ const msgs = [
     
 ]
 const MiniMessage = () => {
-    const { currentProject , projects} = useSelector(state=>state.projectReducer)
+    let { currentProject , projects} = useSelector(state=>state.projectReducer)
     const dispatch = useDispatch()
     const {messages }=  useSelector(state=>state.messagesReducer)
+    projects = projects.filter((project)=>project.evaluator!=null)
     async function handleSend(e){
         e.preventDefault()
         const text = document.getElementById('sendTextField').value
@@ -96,20 +79,22 @@ const MiniMessage = () => {
         //     left :false,
         //     text : text
         // }]))
-
+        console.log(currentProject)
         await sendMessage(currentProject,text)
 
         // messagesSample[currentProject.id]=[...messages,{left:false,text:true}]
     }
-
+    
     useEffect(()=>{
         ( async function loadMsg(){
-            const messages = await getMessages(currentProject)
-            dispatch(setMessages([...messages]))
-            console.log('helo world')
+            if(!currentProject)return
+            const msgs = await getMessages(currentProject)
+            // if (messages!=null) return
+            dispatch(setMessages(msgs))
+            
         })()
         
-    })
+    },[currentProject])
 
     useEffect(()=>{
         const element =  document.getElementById('chatContent')
@@ -119,9 +104,9 @@ const MiniMessage = () => {
     <div className='flex-1 m-[.5rem] ml-[.25rem] rounded-lg bg-neutral-50 capitalize   pt-[1.7rem] pl-[1.5rem] pb-[1.7rem]  pr-[1.5rem]'>
         <h1 className=' font-bold uppercase text-left mt-[.25rem] mb-[1rem]'>Recent Messages</h1>
         <div className='relative flex flex-col'>
-            <h4 className='text-center font-bold'>Chatting with {currentProject ? currentProject.studentName : projects[0].studentName}</h4>
+            <h4 className='text-center font-bold'>Chatting with {currentProject && currentProject.studentName }</h4>
             <div id='chatContent' className="content h-[460px] overflow-y-auto">
-                {/* {messages.map((msg,index)=><Message left={msg.left} msg={msg.text} key={index}/>)} */}
+                {messages && messages.map((msg,index)=><Message left={msg.left} msg={msg.text} key={index}/>)}
             </div>
             <form className="input flex items-center justify-between ">
                 <input type="text" name="" id="sendTextField" className='bg-[rgb(243,243,243)] rounded-md w-[85%] p-[.25rem]' />

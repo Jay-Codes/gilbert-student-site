@@ -48,7 +48,7 @@ export const ActionButtons = ({project,actions})=>{
         <div className='mt-[.5rem] z-[12]' >
             <button className=' rounded-lg bg-blue-600 hover:bg-blue-700 text-white p-[.5rem]' onClick={e=>actions.showApproveDialog(true,project)}> Approve </button>
             <button className=' ml-[.5rem] hover:bg-red-700 rounded-lg bg-red-600 text-white p-[.5rem]'  onClick={e=>actions.showDisapproveDialog(true,project)}> Disapprove </button>
-            <button className=' ml-[.5rem] hover:bg-neutral-200 rounded-lg p-[.5rem] p-[.5rem]text-blue-600' onClick={handleChatWithStudent}> Chat With Student </button>
+            { project.evaluator && <button className=' ml-[.5rem] hover:bg-neutral-200 rounded-lg p-[.5rem] p-[.5rem]text-blue-600' onClick={handleChatWithStudent}> Chat With Student </button>}
         </div>
     )
 }
@@ -103,7 +103,7 @@ export const Dashboard = () => {
     }
     
   return (
-    <div className='flex-[5] p-[2rem] rounded-xl bg-white flex flex-col w-[100%] h-[100vh]'>
+    <div className='flex-[5] p-[2r em] rounded-xl bg-white flex flex-col w-[100%] h-[100vh]'>
         <div className='px-[1.5rem] flex'>
             <div className='flex flex-col flex-1'>
                 <span className='font-[300] text-neutral-400 capitalize mt-[1rem] text-[.8rem] mb-[-.1rem] '>filter by : category</span>
@@ -135,10 +135,10 @@ export const Dashboard = () => {
         </div>
         
 
-        <div >
+        <div className='h-[600px] overflow-y-auto relative'>
             <table className=' border-collapse max-h-[400px] overflow-y-auto' style={{ 
             }}>
-                <div className='h-[600px] overflow-y-auto relative'>
+                {/* <div className='h-[600px] overflow-y-auto relative'> */}
                     <thead>
                         <tr className='sticky top-0 bg-white'>
                             <th className={rowStyle}>project name</th>
@@ -163,7 +163,7 @@ export const Dashboard = () => {
                             </tr>
                         ))}    
                     </tbody>
-                </div>
+                {/* </div> */}
                 
             </table>
         </div>

@@ -11,6 +11,10 @@ export const store = configureStore(
             messagesReducer : messagesSlice,
             currentUser : userReducer,
             profileState :profileState,
-        }
+        },
+        middleware: (getDefaultMiddleware) =>
+            getDefaultMiddleware({
+                serializableCheck: false,
+             }),
     }
 );
