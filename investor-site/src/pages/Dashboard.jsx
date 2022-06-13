@@ -194,6 +194,7 @@ export const Dashboard = () => {
             <Modal>
                 <div className='rounded-xl bg-white flex flex-col justify-start p-[1rem]'>
                     <span className='capitalize'> You are Currently Investing in this project this means that you are taking on the role of the Projects Investor</span>
+                    <span className='capitalize'> Ivesting reveals your contact information to the student for futher discussions</span>
                     <span className='capitalize'> Are You Sure You want to Proceed ?</span>
 
                     {/* <textarea
@@ -222,7 +223,7 @@ export const Dashboard = () => {
                 <div className='rounded-xl bg-white flex flex-col justify-start p-[1rem]'>
                     <span className='capitalize'> you are about to uninvest from this students Project</span>
                     <span className='capitalize'> Are You Sure You want to Proceed ?</span>
-                    <span className='capitalize'> Ivesting reveals your contact information to the student for futher discussions</span>
+                    
                     {/* <textarea
                         // value={}
                         // onChange={}
