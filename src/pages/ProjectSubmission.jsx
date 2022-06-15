@@ -35,7 +35,7 @@ const ProjectSubmission = () => {
                     </select>
                     
                 </div>
-                <h1 className='text-left pb-[.5rem] pt-[1rem]'><b>Project Description</b></h1>
+                <h1 className='text-left pb-[.5rem] pt-[1rem] capitalize'><b>Project Description </b> <font className='font-[300] text-neutral-700'> <br/><b className='mx-[.5rem]'>NB:</b>what problems are you solving? and what do you need for your project implementation </font></h1>
                 <RichTextEditor onChange={value=>setDescription(value)}/>
             </form>
             <div className="bottom flex items-center justify-start pl-[1.5rem] pb-[1.7rem]">

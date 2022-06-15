@@ -1,7 +1,7 @@
 import  { getAuth,onAuthStateChanged, createUserWithEmailAndPassword ,signInWithEmailAndPassword,signOut }  from 'https://www.gstatic.com/firebasejs/9.8.2/firebase-auth.js'
 import { getFirestore, collection, addDoc,  doc, setDoc,query,where,getDoc } from "https://www.gstatic.com/firebasejs/9.8.2/firebase-firestore.js";
 window.links = {
-    STUDENT : '/student/index.html',
+    STUDENT : './student/index.html',
     EVALUATOR : '/evaluator/index.html',
     INVESTOR : '/investor/index.html'
 }
