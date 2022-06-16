@@ -3,7 +3,7 @@ import { getFirestore, collection, addDoc,  doc, setDoc,query,where,getDoc } fro
 window.links = {
     STUDENT : '/student/index.html',
     EVALUATOR : '/evaluator/index.html',
-    INVESTOR : '/investor/index.html'
+    INVESTOR : '/investor-site/public/index.html'
 }
  
 const db = getFirestore(window.app);
