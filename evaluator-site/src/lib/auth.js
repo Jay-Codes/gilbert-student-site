@@ -32,8 +32,13 @@ export default function initializeAuth(){
     auth = getAuth();
     const nemail = sessionStorage.getItem('projectAppEmail')
     const npassword =  sessionStorage.getItem('projectAppPassword')
+<<<<<<< HEAD
     const email = nemail ? nemail : "josephjchuchu@gmail.com"
     const password = npassword ? npassword : "0987654321"
+=======
+    const email = nemail ? nemail : "mboyakgilbert@gmail.com"
+    const password = npassword ? npassword : "gilbert123"
+>>>>>>> 4bdf4e8104f8df0574218d2f047ffcec30349dab
     signInWithEmailAndPassword(auth,email,password)
     setPersistence(auth, browserSessionPersistence)
     .then(() => {

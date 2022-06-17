@@ -16,7 +16,7 @@ import { setMessages } from '../redux/messagesSlice';
 import { setProjectListener } from '../redux/projectState'
 // let isStarted = false;
 
-function subscirbeListener( message) {
+function subscirbeListener() {
   const {currentProject:project} = store.getState().projectState
   if (project.hasListener) return;
   if (project == null) return;

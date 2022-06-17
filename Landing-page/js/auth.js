@@ -1,12 +1,9 @@
 import  { getAuth,onAuthStateChanged, createUserWithEmailAndPassword ,signInWithEmailAndPassword,signOut, sendPasswordResetEmail }  from 'https://www.gstatic.com/firebasejs/9.8.2/firebase-auth.js'
 import { getFirestore, collection, addDoc,  doc, setDoc,query,where,getDoc } from "https://www.gstatic.com/firebasejs/9.8.2/firebase-firestore.js";
 window.links = {
-    STUDENT : '/builds/student-build/index.html',
-    EVALUATOR : '/builds/evaluator-build/index.html',
-    INVESTOR : '/builds/investor-build/index.html'
-    // STUDENT : '/builds/index.html',
-    // EVALUATOR : '/builds/index.html',
-    // INVESTOR : '/builds/index.html'
+    STUDENT : '/student/index.html',
+    EVALUATOR : '/evaluator/index.html',
+    INVESTOR : '/investor-site/public/index.html'
 }
  
 const db = getFirestore(window.app);
