@@ -18,7 +18,7 @@ export async function publishProject(name,category,description,uid){
         evaluator:null,
         studentName : user.firstname+ " "+ user.lastname,
     });    
-    window.location ='/'
+    window.location ='/student/'
 }
 
 export async function getProjects(uid){

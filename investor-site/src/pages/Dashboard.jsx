@@ -51,7 +51,7 @@ export const ActionButtons = ({project,actions})=>{
     async function handleChatWithStudent(e){
         dispatch(setCurrentProject(project));
         await getStudentFromProject(project)
-        navigate('/chat')
+        navigate('/investor/chat')
     }
     return(
         <div className='mt-[.5rem] z-[12] flex items-center justify-center' >
@@ -76,6 +76,7 @@ export const Dashboard = () => {
     const [ currStudent,setCurrStudent ] = useState() 
     const { user } = useSelector(state=>state.currentUser)
     const refresh = useRefresh()
+    console.log(currStudent)
     data = projects
     const rowStyle = 'px-[1.5rem] my-[.25rem] capitalize'
     let list = data.filter((item)=> category !=='all' ? item.category === category : true)
@@ -115,7 +116,9 @@ export const Dashboard = () => {
 
     async function handleSetCurrentProjectInContext(project){
         setCurrentProjectInContext(project)
-        await getStudentFromProject(project)
+        const stud = await getStudentFromProject(project)
+        if(stud)
+            setCurrStudent(stud)
     }
   return (
     <div className='flex-[5] p-[2r em] rounded-xl bg-white flex flex-col w-[100%] h-[100vh]'>
@@ -166,7 +169,7 @@ export const Dashboard = () => {
             </table>
         </div>
 
-        {currentProjectInContext && 
+        {currentProjectInContext && currStudent && 
             <Modal>
                 <div className='rounded-xl bg-white flex flex-col justify-start p-[1rem]'>
                     <div className='flex justify-between items-center'>
@@ -223,15 +226,6 @@ export const Dashboard = () => {
                     <span className='capitalize'> you are about to uninvest from this students Project</span>
                     <span className='capitalize'> Are You Sure You want to Proceed ?</span>
                     <span className='capitalize'> Ivesting reveals your contact information to the student for futher discussions</span>
-                    {/* <textarea
-                        // value={}
-                        // onChange={}
-                        className='border-neutral-400 border my-[.4rem] p-[.3rem]'
-                        placeholder='Enter Reason of Disapproval'
-                        rows={5}
-                        cols={5}
-                        id = 'comment'
-                    /> */}
                     <div >
                         <button className='bg-blue-600 text-white hover:bg-blue-700 rounded-xl p-[.5rem] ' onClick={handleDisapproveProject}>
                             Yes

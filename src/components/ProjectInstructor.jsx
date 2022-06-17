@@ -12,7 +12,7 @@ const ProjectInstructor = () => {
     const { projects : projs } = useSelector(state=>state.projectState)
     const projects =  projs.filter((project)=>project.evaluator)
   return (
-    <div className='flex-1 pb-[1.7rem] pt-[1.7rem] pl-[1.5rem] pr-[1.5rem] bg-white rounded-xl'>
+    <div className='flex-1 pb-[1.7rem] pt-[1.7rem] pl-[1.5rem] pr-[1.5rem] bg-white rounded-xl overflow-y-auto h-[260px]'>
         <h1 className='font-bold text-left uppercase mb-[1.7rem]'> Instructor approved projects</h1>
         <table className='capitalize text-left border-collapse w-[100%]'>
             <thead>

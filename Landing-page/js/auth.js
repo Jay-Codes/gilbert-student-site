@@ -1,9 +1,12 @@
-import  { getAuth,onAuthStateChanged, createUserWithEmailAndPassword ,signInWithEmailAndPassword,signOut }  from 'https://www.gstatic.com/firebasejs/9.8.2/firebase-auth.js'
+import  { getAuth,onAuthStateChanged, createUserWithEmailAndPassword ,signInWithEmailAndPassword,signOut, sendPasswordResetEmail }  from 'https://www.gstatic.com/firebasejs/9.8.2/firebase-auth.js'
 import { getFirestore, collection, addDoc,  doc, setDoc,query,where,getDoc } from "https://www.gstatic.com/firebasejs/9.8.2/firebase-firestore.js";
 window.links = {
-    STUDENT : './student/index.html',
-    EVALUATOR : '/evaluator/index.html',
-    INVESTOR : '/investor/index.html'
+    STUDENT : '/builds/student-build/index.html',
+    EVALUATOR : '/builds/evaluator-build/index.html',
+    INVESTOR : '/builds/investor-build/index.html'
+    // STUDENT : '/builds/index.html',
+    // EVALUATOR : '/builds/index.html',
+    // INVESTOR : '/builds/index.html'
 }
  
 const db = getFirestore(window.app);
@@ -43,7 +46,22 @@ async function writeNewUserToDB(firstName,lastName,phone,userType,email,uid){
         console.error("Error adding document: ", e);
       }
 }
-
+window.passwordReset = function passwrodReset(){
+    const email = document.getElementById('email').value;
+    sendPasswordResetEmail(auth, email)
+    .then(() => {
+        // Password reset email sent!
+        // ..
+        alert('Succesfuly sent pasword reset email \nKindly check your emails')
+        
+    })
+    .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        alert(errorMessage+"\nError code " + errorCode)
+        // ..
+    });
+}
 window.signIn = function signIn(){
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
@@ -76,7 +94,12 @@ window.signIn = function signIn(){
     .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        console.log('wowowo')
+        console.log(errorMessage)
+        alert('wrong password \nPlease Enter The Correct Password')
+        const passwordField = document.getElementById('password');
+        passwordField.value=''
+        passwordField.focus()
+        
     });
 }
 window.signUp = function signUp(){

@@ -11,10 +11,10 @@ const Content = () => {
       <BrowserRouter>
         <SideNav/>
         <Routes>
-            <Route path='/' element={<Hodler><Home/></Hodler>}/>
-            <Route path='/profile' element={<Hodler><Profile/></Hodler>}/>
-            <Route path='/submission' element={<Hodler><ProjectSubmission/></Hodler>}/>
-            <Route path='/all-projects' element={<Hodler><AllProjects/></Hodler>}/>
+            <Route path='/student/' element={<Hodler><Home/></Hodler>}/>
+            <Route path='/student/profile' element={<Hodler><Profile/></Hodler>}/>
+            <Route path='/student/submission' element={<Hodler><ProjectSubmission/></Hodler>}/>
+            <Route path='/student/all-projects' element={<Hodler><AllProjects/></Hodler>}/>
         </Routes>
       </BrowserRouter>
     </div>

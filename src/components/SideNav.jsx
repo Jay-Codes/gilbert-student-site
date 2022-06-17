@@ -19,10 +19,10 @@ const SideNav = () => {
   return (
       <div className=' flex-[1] bg-[rgb(243,243,243)] h-[100vh] mr-[.25rem] '>
         <div className="items bg-white h-[stretch] ">
-            <SideItem icon={<Home/>} label='Dashboard'  to='/'/> 
-            <SideItem icon={<WebAsset/>} label='All Approved Projects'  to='/all-projects'/> 
-            <SideItem icon={<Person/>} label='Profile' to='/profile'/>
-            <SideItem icon={<Publish/>} label='Submission Page'to='submission'/>
+            <SideItem icon={<Home/>} label='Dashboard'  to='/student/'/> 
+            <SideItem icon={<WebAsset/>} label='All Approved Projects'  to='/student/all-projects'/> 
+            <SideItem icon={<Person/>} label='Profile' to='/student/profile'/>
+            <SideItem icon={<Publish/>} label='Submission Page'to='/student/submission'/>
             {/* <SideItem icon={<Message/>} label='Message Page'/> */}
         </div>
       </div>

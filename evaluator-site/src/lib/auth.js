@@ -33,7 +33,7 @@ export default function initializeAuth(){
     const nemail = sessionStorage.getItem('projectAppEmail')
     const npassword =  sessionStorage.getItem('projectAppPassword')
     const email = nemail ? nemail : "josephjchuchu@gmail.com"
-    const password = npassword ? npassword : "1234567890"
+    const password = npassword ? npassword : "0987654321"
     signInWithEmailAndPassword(auth,email,password)
     setPersistence(auth, browserSessionPersistence)
     .then(() => {
@@ -57,7 +57,6 @@ export default function initializeAuth(){
           const ref = doc(db,'users',uid)
           const userSnap = await getDoc(ref);
 
-          console.log(user)
           if (userSnap.exists()) {
             const user = userSnap.data();
             user.uid = uid
@@ -71,7 +70,6 @@ export default function initializeAuth(){
           } else {
             // User is signed out
             // ...
-            console.log('what')
           }
     });
     return {auth}

@@ -13,9 +13,9 @@ function App() {
           <SideNav/>
           <div className='flex-[4] h-[100vh] ml-[.25rem] pl-[.5rem] mr-[.5rem] '>
               <Routes>
-                <Route path='/' element={<Dashboard/>}/>
-                <Route path='/my-projects' element={<Projects/>}/>
-                <Route path='/settings' element={<Profile/>}/>
+                <Route path='/investor/' element={<Dashboard/>}/>
+                <Route path='/investor/my-projects' element={<Projects/>}/>
+                <Route path='/investor/settings' element={<Profile/>}/>
               </Routes>         
           </div>
         </div>

@@ -2,6 +2,7 @@ import { db } from '.'
 import { doc, setDoc ,addDoc ,collection, where, query,getDocs,updateDoc} from "firebase/firestore"; 
 import { Category } from '@mui/icons-material';
 import { store } from '../redux/store'
+import { setProjects } from '../redux/ProjectReducer'
 
 
 export async function publishProject(name,category,description,uid){
@@ -19,15 +20,18 @@ export async function publishProject(name,category,description,uid){
 }
 
 export async function handleApproveProject(approved,comment,project){
+    const dispatch = store.dispatch
     const docRef = doc(db,'projects',project.id)
     const { user } = store.getState().currentUser
     await updateDoc( docRef,
         {
-            evaluator : approved ? user.uid : null,
+            evaluator : approved ? user.uid : false,
             comment : comment,
             evaluatorName : user.firstname +" " + user.lastname,
         }
     )
+
+    dispatch(setProjects(await getAllProjects()))
 }
 
 export async function getProjects(uid){

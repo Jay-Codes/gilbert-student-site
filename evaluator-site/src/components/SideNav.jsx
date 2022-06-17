@@ -18,10 +18,10 @@ const SideNav = () => {
   return (
       <div className='flex-[1] bg-[rgb(243,243,243)] h-[100vh]  '>
         <div className="items bg-white h-[stretch] ">
-            <SideItem icon={<Home/>} label='Dashboard'  to='/'/> 
+            <SideItem icon={<Home/>} label='Dashboard'  to='/evaluator/'/> 
             {/* <SideItem icon={<Project/>} label='My Projects' to='/my-projects'/> */}
-            <SideItem icon={<Message/>} label='chat'to='/chat'/>
-            <SideItem icon={<Settings/>} label='settings'to='/settings'/>
+            <SideItem icon={<Message/>} label='chat'to='/evaluator/chat'/>
+            <SideItem icon={<Settings/>} label='settings'to='/evaluator/settings'/>
             {/* <SideItem icon={<Message/>} label='Message Page'/> */}
         </div>
       </div>

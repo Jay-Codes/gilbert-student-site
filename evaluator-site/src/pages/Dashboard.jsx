@@ -1,5 +1,5 @@
 import React,{useEffect, useState} from 'react'
-import {Close ,Check} from '@mui/icons-material'
+import { Close ,Check } from '@mui/icons-material'
 import { useSelector, useDispatch } from 'react-redux'
 import { setCurrentProject } from '../redux/ProjectReducer'
 import { handleApproveProject as persistedHandleApproveProject } from '../lib/projects'
@@ -31,18 +31,22 @@ let data = [
     },
 ]
 
+// const TrueFalse = ({flag})=>(
+//     flag ? <Check className=' text-green-500'/> :
+//          flag ===null ? <span className='rounded-xl bg-red-400 text-red-800 p-[.25rem]'>pending</span> :
+//           <Close className='text-red-500'/>
+// )
 const TrueFalse = ({flag})=>(
-    flag ? <Check className=' text-green-500'/> :
-         flag ===null ? <span className='rounded-xl bg-red-400 text-red-800 p-[.25rem]'>pending</span> :
-          <Close className='text-red-500'/>
+    flag !=null  ?  (flag === false ? <Close className='text-red-500'/> : <Check className=' text-green-500'/>) :
+        <span className='rounded-xl bg-red-400 text-red-800 p-[.25rem]'>pending</span> 
+          
 )
-
 export const ActionButtons = ({project,actions})=>{
     const dispatch = useDispatch()
     const navigate = useNavigate()
     function handleChatWithStudent(e){
         dispatch(setCurrentProject(project));
-        navigate('/chat')
+        navigate('/evaluator/chat')
     }
     return(
         <div className='mt-[.5rem] z-[12]' >
@@ -99,7 +103,7 @@ export const Dashboard = () => {
 
     function handleChatWithStudent(e){
         dispatch(setCurrentProject(currentProject));
-        navigate('/path')
+        // navigate('/path')
     }
     
   return (
