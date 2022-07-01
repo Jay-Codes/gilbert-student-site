@@ -34,9 +34,21 @@ export default function initializeAuth(){
     auth = getAuth();
     const nemail = sessionStorage.getItem('projectAppEmail')
     const npassword =  sessionStorage.getItem('projectAppPassword')
-    const email = nemail ? nemail : "mboyakgilbert@gmail.com"
-    const password = npassword ? npassword : "gilbert123"
-    signInWithEmailAndPassword(auth,email,password)
+    let email = nemail ? nemail : "mboyakgilbert@gmail.com"
+    let password = npassword ? npassword : "gilbert123"
+
+    signInWithEmailAndPassword(auth,email,password).then((userCredential) => {
+    // Signed in 
+    const user = userCredential.user;
+    console.log(user)
+    // ...
+  })
+  .catch((error) => {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    console.log(errorMessage)
+  });
+
     setPersistence(auth, browserSessionPersistence)
     .then(() => {
         // Existing and future Auth states are now persisted in the current

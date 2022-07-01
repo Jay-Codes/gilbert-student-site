@@ -4,7 +4,7 @@ import { Category } from '@mui/icons-material';
 import { store } from '../redux/store';
 
 
-export async function publishProject(name,category,description,uid){
+export async function publishProject(name,category,description,uid,url){
     const projectRef = collection(db, "projects")
     // {projectName:'ordering system',instructor:true , investor : true ,comments:'Good project check on your execution'},
     const { user } = store.getState().currentUser
@@ -17,6 +17,7 @@ export async function publishProject(name,category,description,uid){
         investor:null,
         evaluator:null,
         studentName : user.firstname+ " "+ user.lastname,
+        url:url,
     });    
     window.location ='/student/'
 }

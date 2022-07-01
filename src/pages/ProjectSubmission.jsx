@@ -4,6 +4,7 @@ import RichTextEditor from '../components/RichTextEditor';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { publishProject } from '../lib/projects';
+import  { uploadFile } from '../lib/files'
 
 const ProjectSubmission = () => {
     const [description ,setDescription]=useState('')
@@ -11,9 +12,15 @@ const ProjectSubmission = () => {
     const [projectName,setProjectName] = useState('')
     const { user } =useSelector(state=>state.currentUser)
     const { uploadProject } =useSelector(state=>state.projectState)
+    const [currentFile ,setCurrentFile] = useState(null)
 
-    function handlePublish(){
-        publishProject(projectName,category,uploadProject.description,user.uid)
+    async function handlePublish(){
+        let url = null
+        if ( currentFile != null){
+            url = await uploadFile(currentFile )
+            console.log(url)
+        }
+        publishProject(projectName,category,uploadProject.description,user.uid,url)
     }
   return (
     <div className='bg-white rounded-lg p-[1rem] '>
@@ -34,6 +41,13 @@ const ProjectSubmission = () => {
                         <option>Economy</option>
                     </select>
                     
+                </div>
+                <div className='flex flex-col items-start'>
+                    <span className='font-bold text-left'>Upload Document for Your Project</span>
+                    <input type="file" name="" id="file-uploader"
+                    onChange= {e=>{
+                        setCurrentFile(e.target.files[0])
+                    }} />
                 </div>
                 <h1 className='text-left pb-[.5rem] pt-[1rem] capitalize'><b>Project Description </b> <font className='font-[300] text-neutral-700'> <br/><b className='mx-[.5rem]'>NB:</b>what problems are you solving? and what do you need for your project implementation </font></h1>
                 <RichTextEditor onChange={value=>setDescription(value)}/>

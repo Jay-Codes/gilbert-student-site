@@ -56,7 +56,7 @@ export const Dashboard = () => {
         if(projects) data = projects
     },[])
   return (
-    <div className=' p-[2rem] rounded-xl bg-white flex flex-col w-[100%] h-[100vh]'>
+    <div className=' p-[2rem] rounded-xl bg-white flex flex-col w-[100%] min-h-[100vh]'>
         <div className='px-[1.5rem] flex'>
             <div className='flex flex-col flex-1'>
                 <span className='font-[300] text-neutral-400 capitalize mt-[1rem] text-[.8rem] mb-[-.1rem] '>filter by : category</span>
@@ -126,6 +126,9 @@ export const Dashboard = () => {
                         <span> Project Name: {currentProjectInContext.projectName}</span>
                         <span> Project category: {currentProjectInContext.category}</span>
                         <span> Student Name: {currentProjectInContext.studentName}</span>
+                        {   currentProjectInContext.url &&
+                            <a className='w-[fit-content] mb-[5px] rounded-lg bg-blue-600 hover:bg-blue-700 text-white p-[.5rem]' target='blank' href={currentProjectInContext.url}> View Project Documents </a>
+                        }
                         <div className='p-[1rem] border w-[1000px] h-[500px] overflow-y-auto'>
                             <Desc description = {currentProjectInContext.description}/>
                         </div>

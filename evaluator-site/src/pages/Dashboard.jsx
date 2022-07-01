@@ -183,6 +183,9 @@ export const Dashboard = () => {
                         <span> Project Name: {currentProjectInContext.projectName}</span>
                         <span> Project category: {currentProjectInContext.category}</span>
                         <span> Student Name: {currentProjectInContext.studentName}</span>
+                        {   currentProjectInContext.url &&
+                            <a className='w-[fit-content] mb-[5px] rounded-lg bg-blue-600 hover:bg-blue-700 text-white p-[.5rem]' target='blank' href={currentProjectInContext.url}> View Project Documents </a>
+                        }
                         <div className='p-[1rem] border w-[1000px] h-[500px] overflow-y-auto'>
                             <Desc description = {currentProjectInContext.description}/>
                         </div>
