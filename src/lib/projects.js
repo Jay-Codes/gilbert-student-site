@@ -19,7 +19,7 @@ export async function publishProject(name,category,description,uid,url){
         studentName : user.firstname+ " "+ user.lastname,
         url:url,
     });    
-    window.location ='/student/'
+    window.location.href ='/student/'
 }
 
 export async function getProjects(uid){
