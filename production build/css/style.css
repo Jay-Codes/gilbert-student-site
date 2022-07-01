@@ -390,7 +390,8 @@ h1, h2, h3, h4, h5, h6 {
   color: #fff;
 }
 #hero h2 {
-  color: #eee;
+  color: #000000;
+  font-weight: bold;
   margin-bottom: 50px;
   font-size: 24px;
 }
@@ -497,7 +498,7 @@ section {
   line-height: 25px;
   display: block;
   font-weight: 700;
-  color: #365870;
+  color: #000000;
   margin-left: 60px;
 }
 .about .count-box p {
@@ -506,7 +507,7 @@ section {
   font-family: "Raleway", sans-serif;
   font-weight: 600;
   font-size: 14px;
-  color: #2e4b5e;
+  color: #000000;
 }
 .about .count-box a {
   font-weight: 600;
@@ -572,6 +573,12 @@ section {
 /*--------------------------------------------------------------
 # About Boxes
 --------------------------------------------------------------*/
+.about-boxes .section-title p{
+  color: #000000;
+}
+.about-boxes .card-body h5{
+  color: #000000;
+}
 .about-boxes {
   background: url("../img/about-boxes-bg.jpg") center top no-repeat fixed;
   background-size: cover;
@@ -756,6 +763,12 @@ section {
 /*--------------------------------------------------------------
 # Team
 --------------------------------------------------------------*/
+.team .section-title p{
+  color: #000000;
+}
+.team .member-info h4{
+  color: #000000;
+}
 .team {
   position: relative;
 }
@@ -830,8 +843,11 @@ section {
 /*--------------------------------------------------------------
 # Contact
 --------------------------------------------------------------*/
+.contact .section-title p{
+  color: #000000;
+}
 .contact .info-box {
-  color: #444444;
+  color: #000000;
   text-align: center;
   box-shadow: 0 0 30px rgba(214, 215, 216, 0.6);
   padding: 20px 0 30px 0;
@@ -844,7 +860,7 @@ section {
 }
 .contact .info-box h3 {
   font-size: 20px;
-  color: #777777;
+  color: #000000;
   font-weight: 700;
   margin: 10px 0;
 }
